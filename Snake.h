@@ -5,7 +5,6 @@ public:
 	Snake();
 	bool OnUserCreate() override;
 	bool OnUserUpdate(float) override;
-	bool OnUserDestroy() override;
 private:
 
 	std::vector<olc::vf2d> fSnakeBody;

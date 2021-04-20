@@ -4,6 +4,9 @@
 #include "olcPixelGameEngine.h"
 #include "Snake.h"
 #include "BreakOut.h"
+
+//these two headers are already included in the <Windows.h> header
+#pragma comment(lib, "Winmm.lib")
 int main()
 { 
     Snake snek;

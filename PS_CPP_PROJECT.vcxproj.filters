@@ -47,4 +47,12 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="x64\Release\resources\moan.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="x64\Release\resources\moan2.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

@@ -153,6 +153,10 @@
     <Image Include="tut_fragment.png" />
     <Image Include="tut_tiles.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="x64\Release\resources\moan.wav" />
+    <Media Include="x64\Release\resources\moan2.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
