@@ -81,7 +81,7 @@ bool BreakOut::OnUserUpdate(float fElapsedTime) {
 
 	if (bHasHitTile)
 	{
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 1000; i++)
 		{
 			sFragment f;
 			f.pos = { hitpos.x + 0.5f, hitpos.y + 0.5f };
