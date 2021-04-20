@@ -5,6 +5,7 @@ public:
 	Snake();
 	bool OnUserCreate() override;
 	bool OnUserUpdate(float) override;
+	bool OnUserDestroy() override;
 private:
 
 	std::vector<olc::vf2d> fSnakeBody;
@@ -15,6 +16,6 @@ private:
 	std::unique_ptr<olc::Sprite> sprTile;
 	olc::vf2d oldTAIL;
 	olc::vf2d head;
-	int score = 1;
+	int score;
 	float speed;
 };

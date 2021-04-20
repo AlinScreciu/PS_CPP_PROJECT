@@ -25,7 +25,19 @@ bool Snake::OnUserCreate()
 	speed = 80;
 	fSnakeBody.reserve(100);
 	fSnakeBody.push_back({ 10.0f,10.0f });
-
+	std::ofstream db1("ceva.txt",std::ios::app);
+	db1.close();
+	bool check = false;
+	std::ifstream db("ceva.txt");
+	if (db.peek() == -1) {
+		check = true;
+	}
+	db.close();
+	if (check) {
+		std::ofstream db2("ceva.txt");
+		db2 << score;
+		db2.close();
+	}
 	return true;
 }
 
@@ -128,7 +140,7 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 		ate = true;
 		apple = { rand() % 24 + 4.0f,rand() % 24 + 4.0f };
 		fSnakeBody.push_back(oldTAIL);
-		if (rand() % 2 == 0){
+		if ((rand() % 100 ) % 2== 0){
 			PlaySound(TEXT("resources/moan.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC);
 		}
 		else { PlaySound(TEXT("resources/moan2.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC); }
@@ -173,4 +185,14 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 	DrawStringProp((1.0f, 1.0f) * vBlockSize,s, olc::RED, 5); 
 	return true;
 }
-
+bool Snake::OnUserDestroy() {
+	std::ifstream db1("ceva.txt");
+	int hi;
+	db1 >> hi;
+	db1.close();
+	std::cout << hi;
+	std::ofstream db("ceva.txt",std::ifstream::trunc);
+	if (score > hi) db << score;
+	db.close();
+	return true;
+}
