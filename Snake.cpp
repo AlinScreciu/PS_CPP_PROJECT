@@ -43,6 +43,14 @@ bool Snake::OnUserCreate()
 
 bool Snake::OnUserUpdate(float fElapsedTime)
 {
+	fAccumulatedTime += fElapsedTime;
+	if (fAccumulatedTime >= fTargetFrameTime)
+	{
+		fAccumulatedTime -= fTargetFrameTime;
+		fElapsedTime = fTargetFrameTime;
+	}
+	else
+		return true; // Don't do anything this frame
 	bool ate = FALSE;
 
 	// Check if head overlaps any part of the body
@@ -52,7 +60,6 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 	{
 		if (*part == head) return 0;
 	}
-
 
 	// Save the old tail and then update the position of the snake
 	// You copy the position of the part in front of you
@@ -105,28 +112,28 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 		direction.x = 0;
 		direction.y = 1;
 	}
+	
 	if (direction.y == -1)
 	{
-		Sleep(speed);
+
 		fSnakeBody.front().y -= 1;
 	}
 	if (direction.y == 1) 
 	{
-		Sleep(speed);
+
 		fSnakeBody.front().y += 1;
 	}
 	if (direction.x == -1) 
 	{
-		Sleep(speed);
+
 		fSnakeBody.front().x -= 1;
 	}
 	if (direction.x == 1) 
-	{
-		Sleep(speed);
+	{	
 		fSnakeBody.front().x += 1;
 	}
 	
-
+	
 	// Checking boundaries
 
 	if (fSnakeBody.front().x >= ScreenWidth() / vBlockSize.x || fSnakeBody.front().x < 0) return false;
@@ -140,10 +147,10 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 		ate = true;
 		apple = { rand() % 24 + 4.0f,rand() % 24 + 4.0f };
 		fSnakeBody.push_back(oldTAIL);
-		if ((rand() % 100 ) % 2== 0){
-			PlaySound(TEXT("resources/moan.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC);
-		}
-		else { PlaySound(TEXT("resources/moan2.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC); }
+		//if ((rand() % 100 ) % 2== 0){
+			//PlaySound(TEXT("resources/moan.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC);
+		//}
+		//else { PlaySound(TEXT("resources/moan2.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC); }
 	}
 	
 
@@ -161,7 +168,8 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 
 	for (auto part = fSnakeBody.rbegin(); part != fSnakeBody.rend(); ++part) 
 	{
-		FillRect(*part * vBlockSize, vBlockSize, olc::GREEN);
+
+		FillRect(*part* vBlockSize, vBlockSize, olc::GREEN);
 	}
 
 
