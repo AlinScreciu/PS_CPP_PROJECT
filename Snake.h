@@ -7,7 +7,7 @@ public:
 	bool OnUserUpdate(float) override;
 	bool OnUserDestroy() override;
 private:
-	float fTargetFrameTime = 1.0f / 20.0f; // Virtual FPS of 100fps
+	float fTargetFrameTime = 1.0f / 10.0f; // Virtual FPS of 20fps
 	float fAccumulatedTime = 0.0f;
 	std::vector<olc::vf2d> fSnakeBody;
 	olc::vf2d apple;
@@ -19,4 +19,5 @@ private:
 	olc::vf2d head;
 	int score;
 	float speed;
+	bool movement = false;
 };

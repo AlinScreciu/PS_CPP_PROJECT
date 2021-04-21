@@ -53,13 +53,7 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 		return true; // Don't do anything this frame
 	bool ate = FALSE;
 
-	// Check if head overlaps any part of the body
-
-	head = fSnakeBody[0];
-	for (auto part = begin(fSnakeBody) + 1, e = end(fSnakeBody); part != e; ++part)
-	{
-		if (*part == head) return 0;
-	}
+	
 
 	// Save the old tail and then update the position of the snake
 	// You copy the position of the part in front of you
@@ -71,48 +65,55 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 		fSnakeBody[i] = fSnakeBody[i - 1];
 	}
 
-
+	
 	// Movment 
 
-	if (GetKey(olc::Key::LEFT).bHeld && direction.x != 1 && fSnakeBody.size()>1)
+	
+	if (GetKey(olc::Key::UP).bHeld && direction.y != 1 && fSnakeBody.size() > 1 && !movement)
 	{
-		direction.x = -1;
-		direction.y = 0;
-	}
-	else if (GetKey(olc::Key::LEFT).bHeld && fSnakeBody.size() == 1) 
-	{
-		direction.x = -1;
-		direction.y = 0;
-	}
-	if (GetKey(olc::Key::RIGHT).bHeld && direction.x != -1 && fSnakeBody.size() > 1)
-	{
-		direction.x = 1;
-		direction.y = 0;
-	}
-	else if (GetKey(olc::Key::RIGHT).bHeld && fSnakeBody.size() == 1) {
-		direction.x = 1;
-		direction.y = 0;
-	}
-	if (GetKey(olc::Key::UP).bHeld && direction.y != 1 && fSnakeBody.size() > 1)
-	{
-		direction.y = -1;
 		direction.x = 0;
+		direction.y = -1;
+		movement = true;
 	}
 	else if (GetKey(olc::Key::UP).bHeld && fSnakeBody.size() == 1) {
 		direction.x = 0;
 		direction.y = -1;
+		movement = true;
 	}
-	if (GetKey(olc::Key::DOWN).bHeld && direction.y != -1 && fSnakeBody.size()>1)
+	if (GetKey(olc::Key::DOWN).bHeld && direction.y != -1 && fSnakeBody.size()>1 && !movement)
 	{
 		direction.x = 0;
 		direction.y = 1;
+		movement = true;
 	}
 	else if (GetKey(olc::Key::DOWN).bHeld && fSnakeBody.size() == 1) 
 	{
 		direction.x = 0;
 		direction.y = 1;
+		movement = true;
 	}
-	
+	if (GetKey(olc::Key::LEFT).bHeld && direction.x != 1 && fSnakeBody.size() > 1 && !movement)
+	{
+		direction = { -1,0 } ;
+		movement = true;
+	}
+	else if (GetKey(olc::Key::LEFT).bHeld && fSnakeBody.size() == 1)
+	{
+		direction.x = -1;
+		direction.y = 0;
+		movement = true;
+	}
+	if (GetKey(olc::Key::RIGHT).bHeld && direction.x != -1 && fSnakeBody.size() > 1 && !movement)
+	{
+		direction.x = 1;
+		direction.y = 0;
+		movement = true;
+	}
+	else if (GetKey(olc::Key::RIGHT).bHeld && fSnakeBody.size() == 1) {
+		direction.x = 1;
+		direction.y = 0;
+		movement = true;
+	}
 	if (direction.y == -1)
 	{
 
@@ -139,7 +140,13 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 	if (fSnakeBody.front().x >= ScreenWidth() / vBlockSize.x || fSnakeBody.front().x < 0) return false;
 	if (fSnakeBody.front().y >= ScreenHeight() / vBlockSize.y || fSnakeBody.front().y < 4.0f) return false;
 
+	// Check if head overlaps any part of the body
 
+	head = fSnakeBody[0];
+	for (auto part = begin(fSnakeBody) + 1, e = end(fSnakeBody); part != e; ++part)
+	{
+		if (*part == head) return 0;
+	}
 	// Eating and doing something naughty
 
 	if (fSnakeBody.front() == apple)
@@ -155,7 +162,7 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 	
 
 	// DRAWING
-
+	///
 	Clear(olc::BLACK);
 
 
@@ -166,11 +173,12 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 
 	// Drawing the snake
 
-	for (auto part = fSnakeBody.rbegin(); part != fSnakeBody.rend(); ++part) 
+	for (auto part = fSnakeBody.rbegin(); part != fSnakeBody.rend(); ++part)
 	{
 
-		FillRect(*part* vBlockSize, vBlockSize, olc::GREEN);
+		FillRect(*part * vBlockSize, vBlockSize, olc::GREEN);
 	}
+	
 
 
 	// Drawing the boundaries
