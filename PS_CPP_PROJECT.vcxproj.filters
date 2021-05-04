@@ -27,6 +27,9 @@
     <ClCompile Include="Snake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcPixelGameEngine.h">
@@ -38,12 +41,18 @@
     <ClInclude Include="Snake.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="tut_tiles.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="tut_fragment.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="capuPedro.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

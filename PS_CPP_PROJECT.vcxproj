@@ -24,6 +24,7 @@
     <ProjectGuid>{c3fc3986-a533-4cdf-9677-05f8e4c2a4bc}</ProjectGuid>
     <RootNamespace>PSCPPPROJECT</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>pedro</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -143,13 +144,16 @@
     <ClCompile Include="olcPixelGameEngine.cpp" />
     <ClCompile Include="PS_CPP_PROJECT.cpp" />
     <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BreakOut.h" />
     <ClInclude Include="olcPixelGameEngine.h" />
     <ClInclude Include="Snake.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="capuPedro.png" />
     <Image Include="tut_fragment.png" />
     <Image Include="tut_tiles.png" />
   </ItemGroup>
