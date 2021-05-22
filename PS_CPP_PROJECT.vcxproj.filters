@@ -30,6 +30,12 @@
     <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tetris.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Piece.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcPixelGameEngine.h">
@@ -44,6 +50,12 @@
     <ClInclude Include="test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tetris.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Piece.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="tut_tiles.png">
@@ -55,12 +67,12 @@
     <Image Include="capuPedro.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\tiles.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="x64\Release\resources\moan.wav">
-      <Filter>Resource Files</Filter>
-    </Media>
-    <Media Include="x64\Release\resources\moan2.wav">
+    <Media Include="resources\tetris.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

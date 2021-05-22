@@ -24,7 +24,7 @@
     <ProjectGuid>{c3fc3986-a533-4cdf-9677-05f8e4c2a4bc}</ProjectGuid>
     <RootNamespace>PSCPPPROJECT</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>pedro</ProjectName>
+    <ProjectName>ps_game_arcade</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -142,24 +142,28 @@
   <ItemGroup>
     <ClCompile Include="BreakOut.cpp" />
     <ClCompile Include="olcPixelGameEngine.cpp" />
+    <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PS_CPP_PROJECT.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="tetris.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BreakOut.h" />
     <ClInclude Include="olcPixelGameEngine.h" />
+    <ClInclude Include="Piece.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="tetris.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="capuPedro.png" />
+    <Image Include="resources\tiles.png" />
     <Image Include="tut_fragment.png" />
     <Image Include="tut_tiles.png" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="x64\Release\resources\moan.wav" />
-    <Media Include="x64\Release\resources\moan2.wav" />
+    <Media Include="resources\tetris.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

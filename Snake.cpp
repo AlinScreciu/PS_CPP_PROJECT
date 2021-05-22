@@ -2,101 +2,176 @@
 #include <Windows.h>
 #include <Mmsystem.h>
 #include <mciapi.h>
+#include <sys/stat.h>
 #pragma comment(lib, "Winmm.lib")
+inline bool file_exists(const std::string& name) {
+	struct stat buffer;
+	return (stat(name.c_str(), &buffer) == 0);
+}
+
 Snake::Snake()
 {
 	sAppName = " Snake ";
 }
+void Snake::eating()
+{
 
-void Snake::movement()
+	if (fSnakeBody.front() == apple)
+	{
+		ate = true;
+		fSnakeBody.push_back(oldTail);
+	}
+	if (ate)
+	{
+		apple = { rand() % 24 + 4.0f,rand() % 24 + 4.0f };
 
+		bool good = false;
+
+		while (!good)
+		{
+			for (auto part : fSnakeBody)
+			{
+				good = true;
+
+				if (apple == part)
+				{
+					good = false;
+					apple = { rand() % 24 + 4.0f,rand() % 24 + 4.0f };
+				}
+			}
+		}
+	}
+
+}
+void Snake::movement_input()
 {
 	moved = false;
-	if (GetKey(olc::Key::UP).bPressed && direction.y != 1 && fSnakeBody.size() > 1 && !moved)
+
+	if ( GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed) up = true;
+	if ( GetKey(olc::Key::DOWN).bPressed || GetKey(olc::Key::S).bPressed) down = true;
+	if ( GetKey(olc::Key::LEFT).bPressed || GetKey(olc::Key::A).bPressed) left = true;
+	if ( GetKey(olc::Key::RIGHT).bPressed || GetKey(olc::Key::D).bPressed) right = true;
+
+}
+void Snake::movement_set_dir()
+{
+	
+
+	if ((up && (direction != olc::vf2d(0,1))) && !moved ) 
 	{
-		direction.x = 0;
-		direction.y = -1;
+		direction = { 0,-1 };
 		moved = true;
 	}
-	else if ((GetKey(olc::Key::UP).bPressed || GetKey(olc::Key::W).bPressed) && fSnakeBody.size() == 1) {
-		direction.x = 0;
-		direction.y = -1;
-		moved = true;
-	}
-	if (GetKey(olc::Key::DOWN).bPressed && direction.y != -1 && fSnakeBody.size() > 1 && !moved)
-	{
-		direction.x = 0;
-		direction.y = 1;
-		moved = true;
-	}
-	else if (GetKey(olc::Key::DOWN).bPressed && fSnakeBody.size() == 1)
-	{
-		direction.x = 0;
-		direction.y = 1;
-		moved = true;
-	}
-	if (GetKey(olc::Key::LEFT).bPressed && direction.x != 1 && fSnakeBody.size() > 1 && !moved)
+	if ((left && (direction != olc::vf2d(1, 0))) && !moved )
 	{
 		direction = { -1,0 };
 		moved = true;
 	}
-	else if (GetKey(olc::Key::LEFT).bPressed && fSnakeBody.size() == 1)
+	if ((down && (direction != olc::vf2d(0, -1))) && !moved )
 	{
-		direction.x = -1;
-		direction.y = 0;
+		direction = { 0,1 };
 		moved = true;
 	}
-	if (GetKey(olc::Key::RIGHT).bPressed && direction.x != -1 && fSnakeBody.size() > 1 && !moved)
+	if ((right && (direction != olc::vf2d(-1, 0))) && !moved )
 	{
-		direction.x = 1;
-		direction.y = 0;
+		direction = { 1,0 };
 		moved = true;
 	}
-	else if (GetKey(olc::Key::RIGHT).bPressed && fSnakeBody.size() == 1) {
-		direction.x = 1;
-		direction.y = 0;
-		moved = true;
-	}
+	up = false;
+	down = false;
+	left = false;
+	right = false;
 }
 void Snake::update_snake(){
-	if (direction.y == -1)
+	
+	if (direction != olc::vf2d(0, 0))
+	{
+		for (int i = fSnakeBody.size() - 1; i >= 1; i--)
+		{
+			fSnakeBody[i] = fSnakeBody[i - 1];
+		}
+	}
+	oldTail = fSnakeBody.back();
+
+	if (direction == olc::vf2d(0, -1))
 	{
 		fSnakeBody.front().y -= 1;
+		return;
 	}
-	if (direction.y == 1)
+
+	if (direction == olc::vf2d(0, 1))
 	{
 		fSnakeBody.front().y += 1;
+		return;
 	}
-	if (direction.x == -1)
+
+	if (direction == olc::vf2d(-1, 0))
 	{
 		fSnakeBody.front().x -= 1;
+		return;
 	}
-	if (direction.x == 1)
+
+	if (direction == olc::vf2d(1, 0))
 	{
 		fSnakeBody.front().x += 1;
+		return;
 	}
+	return;
+}
+bool Snake::is_game_over()
+{
+	if (fSnakeBody.front().x >= ScreenWidth() / vBlockSize.x || fSnakeBody.front().x < 0) return true;
+	if (fSnakeBody.front().y >= ScreenHeight() / vBlockSize.y || fSnakeBody.front().y < yOffset) return true;
+
+	// Check if head overlaps any part of the body
+
+	head = fSnakeBody[0];
+
+	for (auto part = begin(fSnakeBody) + 1, e = end(fSnakeBody); part != e; ++part)
+	{
+		if (*part == head) return true;
+	}
+	return false;
+}
+void Snake::setFPS(float x)
+{
+	fTargetFrameTime = 1 / x;
 }
 bool Snake::OnUserCreate()
-{
+{	
 
-
+	score = 0;
 	apple = { 15.0f,15.0f };
 	speed = 80;
 	fSnakeBody.reserve(100);
 	fSnakeBody.push_back({ 10.0f,10.0f });
-	std::fstream alabala ("ceva.txt", std::ios::in && std::ios::out && std::fstream::app);
-	if (alabala.peek() == -1) {
-		alabala << score;
-	}
-	alabala.close();
+	fSnakeBody.push_back({ 11.0f,10.0f });
 	sprHead = std::make_unique<olc::Sprite>("capuPedro.png");
+	std::fstream fs;
+	if (!file_exists("hi_score.txt"))
+	{
+		fs.open("hi_score.txt", std::fstream::out);
+		fs << score;
+		fs.close();
+	}
+	if (file_exists("hi_score.txt")) 
+	{
+		std::fstream fs;
+		fs.open("hi_score.txt", std::fstream::in);
+		fs >> hi;
+		fs.close();
+	}
+
 	return true;
 }
-
 bool Snake::OnUserUpdate(float fElapsedTime)
 {
-	movement();
+	if (score > hi) hi = score;
+	
+	movement_input();
+	
 	fAccumulatedTime += fElapsedTime;
+
 	if (fAccumulatedTime >= fTargetFrameTime)
 	{
 		fAccumulatedTime -= fTargetFrameTime;
@@ -104,67 +179,17 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 	}
 	else
 		return true; // Don't do anything this frame
-	bool ate = FALSE;
-
-	// Save the old tail and then update the position of the snake
-	// You copy the position of the part in front of you
-	// The head will be updated afterwards by the direction
-
-	oldTAIL = fSnakeBody.back();
-	for (int i = fSnakeBody.size() - 1; i >= 1; i--)
-	{
-		fSnakeBody[i] = fSnakeBody[i - 1];
-	}
-
-
-	// Movment
-
-
 	
+	ate = FALSE;
+
+	movement_set_dir();
+
 	update_snake();
 
 	// Checking boundaries
+	if (is_game_over()) return false;
 
-	if (fSnakeBody.front().x >= ScreenWidth() / vBlockSize.x || fSnakeBody.front().x < 0) return false;
-	if (fSnakeBody.front().y >= ScreenHeight() / vBlockSize.y || fSnakeBody.front().y < 4.0f) return false;
-
-	// Check if head overlaps any part of the body
-
-	head = fSnakeBody[0];
-	for (auto part = begin(fSnakeBody) + 1, e = end(fSnakeBody); part != e; ++part)
-	{
-		if (*part == head) return 0;
-	}
-	// Eating and doing something naughty
-
-	if (fSnakeBody.front() == apple)
-	{
-		ate = true;
-		apple = { rand() % 24 + 4.0f,rand() % 24 + 4.0f };
-		fSnakeBody.push_back(oldTAIL);
-		if ((rand() % 100 ) % 2 == 0)
-		{
-			PlaySound(TEXT("resources/moan.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC);
-		}
-		else 
-		{ 
-			PlaySound(TEXT("resources/moan2.wav"), GetModuleHandle(NULL), SND_FILENAME | SND_ASYNC); 
-		}
-	}
-	if (ate) 
-	{
-		bool good = false;
-		while (!good) 
-		{
-			for (auto& part : fSnakeBody) 
-			{
-				if (apple == part) good = false;
-				else good = true;
-			}
-		}
-	}
-
-
+	eating();
 	// DRAWING
 	///
 	Clear(olc::BLACK);
@@ -177,7 +202,7 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 
 	// Drawing the snake
 
-	for (auto part = fSnakeBody.rbegin(); part != fSnakeBody.rend(); ++part)
+	for (auto part = fSnakeBody.begin(); part != fSnakeBody.end(); ++part)
 	{
 		if (*part == fSnakeBody.front())
 		{
@@ -189,34 +214,40 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 		}
 	}
 
-
-
 	// Drawing the boundaries
 
-	DrawLine(0 , 4.0f * vBlockSize.x , ScreenWidth(),4.0f* vBlockSize.x, olc::WHITE);
-	DrawLine(0, 4.0f * vBlockSize.x, 0, ScreenHeight(), olc::WHITE);
+	DrawLine(0 , yOffset * vBlockSize.x , ScreenWidth(),yOffset* vBlockSize.x, olc::WHITE);
+	DrawLine(0, yOffset * vBlockSize.x, 0, ScreenHeight(), olc::WHITE);
 	DrawLine( 0, ScreenHeight()-1.0f, ScreenWidth()-1.0f, ScreenHeight()-1.0f,olc::WHITE);
-	DrawLine( ScreenWidth() - 1.0f, ScreenHeight() - 1.0f ,ScreenWidth()-1.0f , 4.0f * vBlockSize.x,olc::WHITE);
+	DrawLine( ScreenWidth() - 1.0f, ScreenHeight() - 1.0f ,ScreenWidth()-1.0f , yOffset * vBlockSize.x,olc::WHITE);
 
 
 	// Increasing score if on this frame you have "ate"
-
 	if (ate) score++;
-
 
 	// Displaying the current score
 
-	std::string s = "Score: ";
-	s += std::to_string(score);
-	DrawStringProp((1.0f, 1.0f) * vBlockSize,s, olc::RED, 5);
+	std::string scores = "Score:";
+	scores += std::to_string(score);
+	scores += " Hi:";
+	scores += std::to_string(hi);
+	std::string player = "Player: Alin";
+	DrawStringProp((1.0f, 1.0f) * vBlockSize, player, olc::RED, 5);
+	DrawStringProp(int(vBlockSize.x), 5 * int(vBlockSize.y) , scores, olc::DARK_GREEN, 5);
 	return true;
 }
 bool Snake::OnUserDestroy() {
-	std::fstream alabala("ceva.txt", std::ios::in && std::ios::out && std::fstream::trunc);
-	int hi;
-	alabala >> hi;
-	if (score > hi) {
-		alabala << score;
+	std::fstream fs;
+	fs.open("hi_score.txt", std::fstream::in);
+	int file_hi;
+	fs >> file_hi;
+	fs.close();
+	if (score > file_hi)
+	{	
+		std::ofstream fo("hi_score.txt", std::ios::trunc);
+		fo << score;
+		fo.close();
 	}
 	return true;
 }
+

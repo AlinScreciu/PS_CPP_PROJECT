@@ -5,22 +5,16 @@ BreakOut::BreakOut() {
 }
 
 bool BreakOut::OnUserCreate() {
-	blocks = std::make_unique<int[]>(24 * 30);
-	for (int y = 0; y < 30; y++)
+	blocks = std::make_unique<int[]>(10 * 10);
+	for (int y = 0; y < 10; y++)
 	{
-		for (int x = 0; x < 24; x++)
+		for (int x = 0; x < 10; x++)
 		{
-			if (x == 0 || y == 0 || x == 23)
-				blocks[y * 24 + x] = 10;
-			else
-				blocks[y * 24 + x] = 0;
-
-			if (x > 2 && x <= 20 && y > 3 && y <= 5)
-				blocks[y * 24 + x] = 1;
-			if (x > 2 && x <= 20 && y > 5 && y <= 7)
-				blocks[y * 24 + x] = 2;
-			if (x > 2 && x <= 20 && y > 7 && y <= 9)
-				blocks[y * 24 + x] = 3;
+			blocks[y * 10 + x] = 0;
+			if ((x + y) % 2 == 0) 
+			{
+				blocks[y * 10 + x] = 1;
+			}
 		}
 	}
 	sprTile = std::make_unique<olc::Sprite>("tut_tiles.png");
