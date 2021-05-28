@@ -1,6 +1,6 @@
 #include "test.h"
 
-void test::set_grid(int rows, int cols)
+void test::set_grid(int cols, int rows)
 {
 	ROWS = rows;
 	COLS = cols;
@@ -11,7 +11,11 @@ test::test()
 }
 bool test::OnUserCreate()
 {
-	vBlockSize = { double(ScreenHeight()) / ROWS ,double( ScreenHeight() )/ COLS};
+	vBlockSize = {
+		double(ScreenWidth()) / COLS,
+		double(ScreenHeight()) / ROWS
+	};
+
 	blocks = std::make_unique<int[]>(ROWS * COLS);
 	for (int y = 0 ; y < ROWS ; y++)
 	{
@@ -21,10 +25,6 @@ bool test::OnUserCreate()
 			else blocks[y * COLS + x] = 0;
 		}
 	}
-	A = { (ScreenWidth() / 2) - 5,(ScreenHeight() / 2) - 5 };
-	B = { (ScreenWidth() / 2) - 5 + 10,(ScreenHeight() / 2) - 5 };
-	C = { (ScreenWidth() / 2) - 5,(ScreenHeight() / 2) - 5 + 10 };
-	D = { (ScreenWidth() / 2) - 5 + 10,(ScreenHeight() / 2) - 5 + 10 };
 	return true;
 }
 bool test::OnUserUpdate(float fLastElapsed)
@@ -32,7 +32,7 @@ bool test::OnUserUpdate(float fLastElapsed)
 
 	if (GetKey(olc::Key::ESCAPE).bPressed) return false;
 
-	/*for (int y = 0; y < ROWS; y++)
+	for (int y = 0; y < ROWS; y++)
 	{
 		for (int x = 0; x < COLS; x++)
 		{
@@ -46,21 +46,8 @@ bool test::OnUserUpdate(float fLastElapsed)
 				break;
 			}
 		}
-	}*/
-	Clear(olc::BLACK);
-	DrawLine(A, B);
-	DrawLine(B, D);
-	DrawLine(D, C);
-	DrawLine(C, A);
-	Draw(A, olc::RED); // A
-	Draw(B, olc::RED); // B
-	Draw(C, olc::RED); // C
-	Draw(D, olc::RED); // D
-	Sleep(100);
-	DrawLine({ ScreenHeight() / 2,ScreenWidth() / 2 }, { i * 10,int(std::cos(i) * 10) },olc::RED);
-	DrawLine({ ScreenHeight() / 2,ScreenWidth() / 2 }, { i * 10,int(std::sin(i) * 10) }, olc::BLUE);
-	if (i == 360) i = 0;
-	i++;
+	}
+	
 	return true;
 }
 bool test::OnUserDestroy()

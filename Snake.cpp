@@ -8,7 +8,6 @@ inline bool file_exists(const std::string& name) {
 	struct stat buffer;
 	return (stat(name.c_str(), &buffer) == 0);
 }
-
 Snake::Snake()
 {
 	sAppName = " Snake ";
@@ -23,7 +22,7 @@ void Snake::eating()
 	}
 	if (ate)
 	{
-		apple = { rand() % 24 + 4.0f,rand() % 24 + 4.0f };
+		apple = { rand() % 24 + 4.0f,rand() % 24 + yOffset };
 
 		bool good = false;
 
@@ -36,7 +35,7 @@ void Snake::eating()
 				if (apple == part)
 				{
 					good = false;
-					apple = { rand() % 24 + 4.0f,rand() % 24 + 4.0f };
+					apple = { rand() % 24 + 4.0f,rand() % 24 + yOffset };
 				}
 			}
 		}
@@ -141,11 +140,11 @@ bool Snake::OnUserCreate()
 {	
 
 	score = 0;
-	apple = { 15.0f,15.0f };
+	apple = { 15.0f,15.0f +yOffset};
 	speed = 80;
 	fSnakeBody.reserve(100);
-	fSnakeBody.push_back({ 10.0f,10.0f });
-	fSnakeBody.push_back({ 11.0f,10.0f });
+	fSnakeBody.push_back({ 10.0f,10.0f + yOffset});
+	fSnakeBody.push_back({ 11.0f,10.0f + yOffset});
 	sprHead = std::make_unique<olc::Sprite>("capuPedro.png");
 	std::fstream fs;
 	if (!file_exists("hi_score.txt"))
@@ -161,7 +160,6 @@ bool Snake::OnUserCreate()
 		fs >> hi;
 		fs.close();
 	}
-
 	return true;
 }
 bool Snake::OnUserUpdate(float fElapsedTime)
@@ -231,9 +229,11 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 	scores += std::to_string(score);
 	scores += " Hi:";
 	scores += std::to_string(hi);
-	std::string player = "Player: Alin";
-	DrawStringProp((1.0f, 1.0f) * vBlockSize, player, olc::RED, 5);
-	DrawStringProp(int(vBlockSize.x), 5 * int(vBlockSize.y) , scores, olc::DARK_GREEN, 5);
+	std::string player = "Player";
+	
+	DrawStringProp(vBlockSize.x, vBlockSize.y, player, olc::RED, 5);
+	DrawStringProp(vBlockSize.x, 4 * vBlockSize.y, user, olc::RED, 5);
+	DrawStringProp(vBlockSize.x, 8 * vBlockSize.y, scores, olc::RED, 5);
 	return true;
 }
 bool Snake::OnUserDestroy() {

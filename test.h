@@ -16,7 +16,6 @@ private:
 	int COLS=10;
 	olc::vd2d vBlockSize;
 	std::unique_ptr<int[]> blocks;
-	olc::vi2d A, B, C, D;
 
 };
 

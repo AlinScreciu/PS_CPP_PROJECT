@@ -159,6 +159,7 @@ bool tetris::OnUserUpdate(float fElapsedTime)
 		if (field[1][i] != 0) gameOver = true;
 	}
 	int k = 19;
+	int tetris = 0;
 	for (int i = 19; i > 0; i--)
 	{
 		int count = 0;
@@ -167,9 +168,10 @@ bool tetris::OnUserUpdate(float fElapsedTime)
 			if (field[i][j]) count++;
 			field[k][j] = field[i][j];
 		}
+		if (count == 10) tetris++;
 		if (count < 10) k--;
 	}
-	// DRAW
+	if (tetris == 4) std::cout << "!TETRIS";
 	myDraw();
 	
 	for (int i = 0; i < 20; i++)

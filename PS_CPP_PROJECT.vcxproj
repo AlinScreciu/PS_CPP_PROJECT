@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BreakOut.cpp" />
+    <ClCompile Include="nume.cpp" />
     <ClCompile Include="olcPixelGameEngine.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PS_CPP_PROJECT.cpp" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BreakOut.h" />
+    <ClInclude Include="nume.h" />
     <ClInclude Include="olcPixelGameEngine.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="Snake.h" />
@@ -164,6 +166,9 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="resources\tetris.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="hi_score.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,7 @@ public:
 	bool OnUserUpdate(float) override;
 	bool OnUserDestroy() override;
 	void setFPS(float);
+	std::string user;
 private:
 	void eating();
 	void update_snake();
@@ -27,7 +28,7 @@ private:
 	int hi;
 	int score;
 	float speed;
-	float yOffset = 8.0f; // 2 x string size => 2 lines
+	float yOffset = 12.0f; // 2 x string size => 2 lines
 	bool moved;
 	bool ate = false;
 	bool up = false, down = false, left = false, right = false;
