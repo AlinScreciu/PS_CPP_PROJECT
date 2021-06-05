@@ -4,9 +4,9 @@
 #include <mciapi.h>
 #include <sys/stat.h>
 #pragma comment(lib, "Winmm.lib")
-inline bool file_exists(const std::string& name) {
-	struct stat buffer;
-	return (stat(name.c_str(), &buffer) == 0);
+void Snake::setHi(int newHi)
+{
+	hi = newHi;
 }
 Snake::Snake()
 {
@@ -138,7 +138,7 @@ void Snake::setFPS(float x)
 }
 bool Snake::OnUserCreate()
 {	
-
+	std::cout << hi;
 	score = 0;
 	apple = { 15.0f,15.0f +yOffset};
 	speed = 80;
@@ -147,19 +147,6 @@ bool Snake::OnUserCreate()
 	fSnakeBody.push_back({ 11.0f,10.0f + yOffset});
 	sprHead = std::make_unique<olc::Sprite>("capuPedro.png");
 	std::fstream fs;
-	if (!file_exists("hi_score.txt"))
-	{
-		fs.open("hi_score.txt", std::fstream::out);
-		fs << score;
-		fs.close();
-	}
-	if (file_exists("hi_score.txt")) 
-	{
-		std::fstream fs;
-		fs.open("hi_score.txt", std::fstream::in);
-		fs >> hi;
-		fs.close();
-	}
 	return true;
 }
 bool Snake::OnUserUpdate(float fElapsedTime)
@@ -236,18 +223,5 @@ bool Snake::OnUserUpdate(float fElapsedTime)
 	DrawStringProp(vBlockSize.x, 8 * vBlockSize.y, scores, olc::RED, 5);
 	return true;
 }
-bool Snake::OnUserDestroy() {
-	std::fstream fs;
-	fs.open("hi_score.txt", std::fstream::in);
-	int file_hi;
-	fs >> file_hi;
-	fs.close();
-	if (score > file_hi)
-	{	
-		std::ofstream fo("hi_score.txt", std::ios::trunc);
-		fo << score;
-		fo.close();
-	}
-	return true;
-}
+
 

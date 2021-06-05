@@ -140,35 +140,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BreakOut.cpp" />
-    <ClCompile Include="nume.cpp" />
     <ClCompile Include="olcPixelGameEngine.cpp" />
-    <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PS_CPP_PROJECT.cpp" />
     <ClCompile Include="Snake.cpp" />
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="tetris.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BreakOut.h" />
-    <ClInclude Include="nume.h" />
     <ClInclude Include="olcPixelGameEngine.h" />
-    <ClInclude Include="Piece.h" />
+    <ClInclude Include="PS_CPP_PROJECT.h" />
     <ClInclude Include="Snake.h" />
-    <ClInclude Include="test.h" />
     <ClInclude Include="tetris.h" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="capuPedro.png" />
     <Image Include="resources\tiles.png" />
-    <Image Include="tut_fragment.png" />
-    <Image Include="tut_tiles.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="resources\tetris.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="hi_score.txt" />
+    <Text Include="resources\players.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

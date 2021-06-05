@@ -6,9 +6,10 @@ public:
 	Snake();
 	bool OnUserCreate() override;
 	bool OnUserUpdate(float) override;
-	bool OnUserDestroy() override;
 	void setFPS(float);
+	void setHi(int);
 	std::string user;
+	int score,hi;
 private:
 	void eating();
 	void update_snake();
@@ -25,8 +26,6 @@ private:
 	olc::vf2d oldTail;
 	olc::vf2d oldHead;
 	olc::vf2d head;
-	int hi;
-	int score;
 	float speed;
 	float yOffset = 12.0f; // 2 x string size => 2 lines
 	bool moved;
